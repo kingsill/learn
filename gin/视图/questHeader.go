@@ -1,5 +1,6 @@
 package main
 
+//获取请求头内容
 import (
 	"fmt"
 	"regexp"

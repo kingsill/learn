@@ -1,5 +1,6 @@
 package main
 
+//上传文件
 import "github.com/gin-gonic/gin"
 
 //这里可以回顾之前的静态文件响应

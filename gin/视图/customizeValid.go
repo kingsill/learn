@@ -1,5 +1,6 @@
 package main
 
+//用户自定义绑定器
 import (
 	"reflect"
 

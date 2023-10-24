@@ -1,5 +1,6 @@
 package main
 
+//绑定参数
 import "github.com/gin-gonic/gin"
 
 //定义结构体信息

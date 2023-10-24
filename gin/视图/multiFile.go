@@ -1,5 +1,6 @@
 package main
 
+//同时上传多个文件
 import (
 	"fmt"
 

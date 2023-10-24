@@ -1,5 +1,6 @@
 package main
 
+//用户自定义错误消息
 import (
 	"reflect"
 

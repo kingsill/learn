@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// test
 func GM(c *gin.Context) {
 	fmt.Println("GLOBAL")
 }

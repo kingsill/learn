@@ -1,8 +1,9 @@
 package main
 
-//单个中间件+拦截
+//单个中间件+拦截+时间统计
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,10 +25,16 @@ func main() {
 func m1(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "ok"})
 
+	startTime := time.Now() //增加计时功能，可以获得该路由的运行时间
+	fmt.Printf("startTime: %v\n", startTime)
+
 	fmt.Println("1 in")
 	c.Next()
 	c.Abort() //可以看到这里的abort没有作用，是因为等m1响应的时候所有中间件已经运行，无法停止下一个中间件
 	fmt.Println("1 out")
+
+	sinceTime := time.Since(startTime) //获取从start之后过去的时间
+	fmt.Println(sinceTime)
 }
 
 func m2(c *gin.Context) {

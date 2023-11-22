@@ -36,5 +36,8 @@ type Student struct {
 }
 
 func main() {
-	DB.AutoMigrate(&Student{})
+	err := DB.AutoMigrate(&Student{})
+	if err != nil {
+		return
+	}
 }

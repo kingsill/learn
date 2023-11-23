@@ -17,7 +17,19 @@ func main() {
 		Age:   21,
 		Email: &email, //指针类型可以传null值，别的不传默认为空值
 	}
-	err := DB.Create(&s1).Error
+	s2 := Student{ //id自动创建
+		Name:  "wang2",
+		Age:   22,
+		Email: nil, //指针类型可以传null值，别的不传默认为空值
+	}
+
+	s := []*Student{ //通过切片形式来生成多条记录
+		&s1, &s2,
+	}
+	//s := []Student{
+	//	s1, s2,
+	//}
+	err := DB.Create(s).Error
 	if err != nil {
 		println(err)
 	}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -52,6 +53,30 @@ func main() {
 
 	//查询多条记录
 	var students []Student //首先创建切片
-	rowsAffected := DB.Find(&students).RowsAffected
+
+	rowsAffected := DB.Find(&students).RowsAffected //查询全部记录
 	fmt.Println(students, rowsAffected)
+
+	for _, s := range students {
+		fmt.Println(s)
+
+		marshal, _ := json.Marshal(s) //通过序列化可以读出指针所指的内容
+		fmt.Println(string(marshal))
+	}
+
+	students = []Student{} //重新赋值
+
+	//根据主键查询多条记录
+	DB.Find(&students, []int{1, 2})
+	//DB.Take(&students, []int{1, 3}) //take只能获取单条记录
+
+	fmt.Println(students)
+
+	students = []Student{} //重新赋值
+
+	//根据其他条件查询多条记录，  可以与其他条件查询 单条记录进行对比
+	DB.Find(&students, "age in ?", []int{21, 23}) //查询年龄为21和23岁的
+
+	fmt.Println(students)
+
 }

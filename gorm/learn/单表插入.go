@@ -13,8 +13,8 @@ func main() {
 	email := "wang2001zilong@126.com"
 	//添加记录 结构实例化
 	s1 := Student{ //id自动创建
-		Name:  "wang",
-		Age:   21,
+		Name:  "wang3",
+		Age:   24,
 		Email: &email, //指针类型可以传null值，别的不传默认为空值
 	}
 	err := DB.Create(&s1).Error

@@ -130,4 +130,38 @@ func main() {
 	DB.Model(&user).Association("Articles").Append(&article)
 	//2.文章关联用户
 	DB.Model(&article).Association("User").Append(&user)
+
+	//查询 不加载，无法查看
+	var userList []User
+	DB.Find(&userList)
+	fmt.Println(userList) //[{1 wang []} {2 wang2 []}]
+
+	user = User{}
+	//查询 预加载
+	DB.Preload("Articles").Take(&user, 1)
+	fmt.Println(user) //{1 wang [{1 golang 1 {0  []}} {2 python 1 {0  []}} {5 c++ 1 {0  []}}]}
+
+	user = User{}
+	//嵌套预加载 结构体中内容再展示一层
+	DB.Preload("Articles.User").Take(&user, 1)
+	fmt.Println(user)
+	//{1 wang [{1 golang 1 {1 wang []}} {2 python 1 {1 wang []}} {5 c++ 1 {1 wang []}}]}
+
+	user = User{}
+	//带条件的预加载
+	//这里只预加载id=1的文章
+	DB.Preload("Articles", "id=?", 1).Take(&user) //
+	fmt.Println(user)
+	//{1 wang [{1 golang 1 {0  []}}]}
+
+	// 将id=2的用户的文章与其断开关系,并将用户删除
+	user = User{}
+	DB.Preload("Articles").Take(&user, 2)
+	DB.Model(&user).Association("Articles").Delete(&user.Articles)
+	DB.Delete(&user)
+
+	//级联删除
+	user = User{}
+	DB.Preload("Articles").Take(&user, 1)
+	DB.Select("Articles").Delete(&user)
 }

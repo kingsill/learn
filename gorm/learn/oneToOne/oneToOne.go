@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -32,7 +33,8 @@ func init() {
 type User struct {
 	ID     uint    `gorm:"size:16"`
 	Name   string  `gorm:"size:8"`
-	IDCard *IDCard //通过idcard获得详细信息，同时通过指针传递防止产生结构体嵌套
+	IDCard *IDCard //通过idcard获得详细信息,进行后续查询，同时通过指针传递防止产生结构体嵌套
+	//谁是指针不明确，怎么选择取决于具体的应用
 }
 
 type IDCard struct {
@@ -60,7 +62,16 @@ func main() {
 
 	//将新建的idcard绑定到已有user上
 	//DB.Save(&User{Name: "cc"})
-	DB.Save(&IDCard{ID: 456, UserID: 2})
+	//DB.Save(&IDCard{ID: 456, UserID: 2})
 
+	var user User
+	DB.Preload("IDCard").Take(&user, 2)
+	fmt.Println(user)
+	marshal, _ := json.Marshal(user)
+	fmt.Println(string(marshal))
+
+	//DB.Select("IDCard").Delete(&user)
 	//
+	//DB.Model(&user).Association("IDCard").Delete(&user.IDCard)
+
 }

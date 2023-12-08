@@ -24,7 +24,7 @@ type Host struct {
 // 在status的json序列化过程中进行常量和字符串的转化
 func (status Status) MarshalJSON() ([]byte, error) {
 	var str string //定义一个字符串方便对status的json转换
-
+	status.string()
 	switch status {
 	case Running:
 		str = "running"

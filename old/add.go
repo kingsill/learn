@@ -1,11 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+type ErrNegativeSqrt float64
+
+func Sqrt(x float64) (float64, error) {
+	if x < 0 {
+		return 0, ErrNegativeSqrt(x)
+	}
+	return 0, nil
+}
+
+func (e ErrNegativeSqrt) Error() string {
+	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
+}
 
 func main() {
-	fmt.Println("请输入要相加的两个数字")
-	var x, y int
-	fmt.Scan(&x, &y)
-	z := x * y
-	fmt.Printf("%d*%d=%d", x, y, z)
+	fmt.Println(Sqrt(2))
+	fmt.Println(Sqrt(-2))
 }
